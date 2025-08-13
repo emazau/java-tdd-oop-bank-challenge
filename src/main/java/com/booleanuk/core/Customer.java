@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Customer {
     Savings savings;
     Current current;
-    Float requests;
     enum Branch {
         OSLO, BERGEN, HARDANGER
     }
@@ -16,19 +15,39 @@ public class Customer {
         this.branch = Branch.BERGEN;
     }
 
-    public Boolean setBranch(String branch) {
-
-        return false;
+    public Boolean setBranch(Customer.Branch branch) {
+        this.branch = branch;
+        return true;
     }
-    public Float overdraft(Float amount){
-        return -1.00f;
+    public boolean overdraft(Float amount){
+        if (amount < current.getBalance()+200){
+            //må legge til at dette er ekstraordinert`?
+            current.withdrawAmount(amount);
+            return true;
+        }
+        return false;
     }
 
     public boolean createRequests(Float amount){
+        if (amount < current.getBalance()+400.00f){
+            //må legge til at dette er ekstraordinert`?
+
+            return current.addRequest(amount);
+
+        }
+
         return false;
     }
 
     public boolean approveRequests(Float requests, boolean approved){
+        if (current.findAmount(requests) != -999.40f) {
+            if (approved) {
+                current.withdrawAmount(requests);
+                return true;
+            }
+            current.removeRequest(requests);
+        }
+
         return false;
     }
 

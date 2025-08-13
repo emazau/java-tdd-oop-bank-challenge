@@ -2,16 +2,40 @@ package com.booleanuk.core;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class Account {
     protected Float balance;
     protected ArrayList<Transaction> transactions;
+    protected ArrayList<Float> requests;
+
+
 
 
     public Account(ArrayList<Transaction> transactions) {
         this.balance = 0.00f;
         this.transactions = transactions;
+        this.requests = new ArrayList<Float>();
     }
+
+    public Float findAmount(Float amount){
+        for (Float item : requests){
+            if (Objects.equals(item, amount)) {
+                return item;
+            }
+        }
+        return -999.40f;
+    }
+
+    public boolean addRequest(Float amount){
+        requests.add(amount);
+        return true;
+    }
+
+    public void removeRequest(Float amount){
+        requests.remove(amount);
+    }
+
 
     public Float addAmount(Float amount){
         balance+= amount;

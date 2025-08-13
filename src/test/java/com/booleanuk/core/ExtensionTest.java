@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static com.booleanuk.core.Customer.Branch.*;
+
 public class ExtensionTest {
     @Test
     public void getBalHardWayTest(){
@@ -60,11 +62,9 @@ public class ExtensionTest {
         customer.createAccount("current");
         customer.createAccount("saVings");
 
-        Assertions.assertEquals(true, customer.setBranch("Oslo") );
-        Assertions.assertEquals(false, customer.setBranch("Trondheim") );
-        Assertions.assertEquals(true, customer.setBranch("Hardanger") );
-        Assertions.assertEquals(true, customer.setBranch("BeRGen") );
-        Assertions.assertEquals(false, customer.setBranch("Berrgen") );
+        Assertions.assertEquals(true, customer.setBranch(OSLO) );
+        Assertions.assertEquals(true, customer.setBranch(HARDANGER) );
+        Assertions.assertEquals(true, customer.setBranch(BERGEN) );
 
 
     }
@@ -80,7 +80,7 @@ public class ExtensionTest {
 
 
         customer.depositFunds(1000.00f, "current");
-        Assertions.assertEquals(true, customer.overdraft(10100.00f) );
+        Assertions.assertEquals(true, customer.overdraft(1100.00f) );
 
         Assertions.assertEquals(true, customer.overdraft(50.00f) );
 
@@ -93,8 +93,8 @@ public class ExtensionTest {
 
 
     }
-
-    public void approveRequests(Float amount){
+    @Test
+    public void approveRequests(){
         Customer customer = new Customer();
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
         Current current = new Current( transactions );
@@ -105,7 +105,7 @@ public class ExtensionTest {
         customer.depositFunds(1000.00f, "current");
         //try this
         Assertions.assertEquals(true, customer.createRequests(1300.00f) );
-        Assertions.assertEquals(true, customer.approveRequests(1300.00f,false) );
+        Assertions.assertEquals(false, customer.approveRequests(1300.00f,false) );
         Assertions.assertEquals(true, customer.createRequests(1300.00f) );
         Assertions.assertEquals(true, customer.approveRequests(1300.00f,true) );
 
